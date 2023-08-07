@@ -1,21 +1,31 @@
+
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 
 interface Pessoa {
   nome: string;
+  input: string;
 }
 
 class App extends Component<{}, Pessoa> {
+
   constructor(props: {}) {
     super(props);
     this.state = {
-      nome: ''
+      nome: '',
+      input: '',
+
     }
-    this.retornaNome = this.retornaNome.bind(this)
+
+    this.login = this.login.bind(this)
   }
 
-  retornaNome(nomeDigitado: string) {
-    this.setState({ nome: (nomeDigitado.length > 0 ? nomeDigitado : "") })
+  login() {
+    if ( this.state.input === "" ){
+      alert('Digite seu nome')
+
+    }
+    this.setState({ nome: this.state.input.length > 0 ? `Bem vindo: ${this.state.input}` : 'Digite seu nome' })
   }
   render() {
     return (
@@ -24,9 +34,12 @@ class App extends Component<{}, Pessoa> {
           style={styles.input}
           placeholder="Digite seu nome"
           underlineColorAndroid="transparent"
-          onChangeText={this.retornaNome}
+          onChangeText={(texto) => { this.setState({ input: texto }) }}
+
         />
-        <Text style={styles.texto}>Bem vindo {this.state.nome}</Text>
+        <Button title="Login" onPress={this.login} />
+
+        <Text style={styles.texto}>{this.state.nome}</Text>
       </View>
     );
   }
